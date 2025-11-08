@@ -62,7 +62,9 @@
     <!-- Hero -->
     <header id="home" class="bg-white rounded-2xl shadow-lg overflow-hidden brand-bg p-8 grid grid-cols-1 md:grid-cols-2 gap-6 items-center mb-8">
       <div data-aos="fade-right" data-aos-duration="800">
-        <img src="https://wallpapercave.com/wp/wp8739604.png" alt="Advocate" class="w-40 h-40 rounded-full border-4 border-white shadow-lg mx-auto md:mx-0 object-cover">
+        <img src="https://wallpapercave.com/wp/wp8739604.png" 
+     alt="Advocate" 
+     class="w-40 h-40 rounded-full border-4 border-white shadow-lg mx-auto md:mx-0 object-contain bg-white p-1">
       </div>
       <div data-aos="fade-left" data-aos-duration="800">
         <h1 class="text-4xl font-extrabold mb-2">Advocate Jagdeep Jotwal</h1>
@@ -327,6 +329,39 @@
 	  const message = `New Legal Query Received:%0AClient Name: ${encodeURIComponent(name)}%0AClient Phone: ${encodeURIComponent(phone)}%0AQuery: ${encodeURIComponent(queryText)}`;
 	  const waUrl = `https://wa.me/917013162767?text=${message}`;
 	  window.open(waUrl, '_blank');
+	});
+
+	// Basic client-side validation for query form
+	queryForm.addEventListener('submit', function(e) {
+	  const name = document.getElementById('name').value.trim();
+	  const email = document.getElementById('email').value.trim();
+	  const phone = document.getElementById('phone').value.trim();
+	  const queryText = document.getElementById('query').value.trim();
+
+	  // Regex for email and phone validation
+	  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	  const phoneRegex = /^[0-9]{10}$/; // basic 10-digit phone check
+
+	  if (name.length < 3) {
+		e.preventDefault();
+		showMessage('Please enter your full name (min 3 characters).', 'bg-red-50 text-red-700');
+		return false;
+	  }
+	  if (!emailRegex.test(email)) {
+		e.preventDefault();
+		showMessage('Please enter a valid email address.', 'bg-red-50 text-red-700');
+		return false;
+	  }
+	  if (phone && !phoneRegex.test(phone)) {
+		e.preventDefault();
+		showMessage('Please enter a valid 10-digit phone number or leave it blank.', 'bg-red-50 text-red-700');
+		return false;
+	  }
+	  if (queryText.length < 10) {
+		e.preventDefault();
+		showMessage('Please describe your query in more detail (at least 10 characters).', 'bg-red-50 text-red-700');
+		return false;
+	  }
 	});
 
 
