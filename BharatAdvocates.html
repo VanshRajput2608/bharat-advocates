@@ -385,8 +385,13 @@
     window.location.href = "tel:+917082868248";
   };
   window.openWhatsApp = function () {
-    window.open("https://wa.me/917082868248", "_blank");
+    const phone = "917082868248";
+    const text = encodeURIComponent("Hello, I want to consult with Advocate Jagdeep Jotwal.");
+    const url = `https://wa.me/${phone}?text=${text}`;
+    window.location.href = url;
   };
+
+
 
   // === Booking modal logic ===
   const bookingModal = document.getElementById("bookingModal");
