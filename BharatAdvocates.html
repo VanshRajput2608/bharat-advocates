@@ -62,7 +62,7 @@
     <!-- Hero -->
     <header id="home" class="bg-white rounded-2xl shadow-lg overflow-hidden brand-bg p-8 grid grid-cols-1 md:grid-cols-2 gap-6 items-center mb-8">
       <div data-aos="fade-right" data-aos-duration="800">
-        <img src="https://placehold.co/300x300/ffffff/1a365d?text=Advocate" alt="Advocate" class="w-40 h-40 rounded-full border-4 border-white shadow-lg mx-auto md:mx-0 object-cover">
+        <img src="https://wallpapercave.com/wp/wp8739604.png" alt="Advocate" class="w-40 h-40 rounded-full border-4 border-white shadow-lg mx-auto md:mx-0 object-cover">
       </div>
       <div data-aos="fade-left" data-aos-duration="800">
         <h1 class="text-4xl font-extrabold mb-2">Advocate Jagdeep Jotwal</h1>
@@ -120,7 +120,9 @@
         </div>
         <div class="w-full lg:w-64 p-4 text-center bg-white rounded-lg shadow">
           <div class="text-sm text-gray-500">Need urgent legal advice?</div>
-          <button class="mt-4 px-4 py-2 rounded-full cta-gold cta-btn w-full"><i class="fas fa-phone"></i> Call Now</button>
+          <button class="mt-4 px-4 py-2 rounded-full cta-gold cta-btn w-full" onclick="openTel(); return false;">
+		  <i class="fas fa-phone"></i> Call Now
+		</button>
         </div>
       </div>
     </section>
@@ -187,7 +189,7 @@
         <div>
           <h3 class="font-semibold text-lg">Contact</h3>
           <p class="mt-2 text-gray-600">Advocate Jagdeep Jotwal • Gurgaon District Court</p>
-          <p class="mt-2 text-gray-600">Phone: <a href="#" id="phoneLink" class="text-blue-600 underline">+91-XXXXXXXXXX</a></p>
+          <p class="mt-2 text-gray-600">Phone: <a href="#" id="phoneLink" class="text-blue-600 underline">+91-7082868248</a></p>
           <p class="mt-1 text-gray-600">WhatsApp: <a href="#" id="waLink" class="text-blue-600 underline">Chat on WhatsApp</a></p>
         </div>
         <div>
@@ -301,16 +303,32 @@
     document.getElementById('bookBtnNavbar').addEventListener('click', ()=> bookingModal.classList.remove('hidden'));
     window.closeBooking = ()=> bookingModal.classList.add('hidden');
     window.submitBooking = ()=>{
-      const name = document.getElementById('bkName').value; const email = document.getElementById('bkEmail').value; const date = document.getElementById('bkDate').value;
-      if(!name||!email||!date){ alert('Please fill all fields'); return; }
-      // Here you can send booking request to Firestore or to email
-      alert('Booking request sent — we will confirm shortly.');
-      bookingModal.classList.add('hidden');
-    }
+	  const name = document.getElementById('bkName').value;
+	  const email = document.getElementById('bkEmail').value;
+	  const date = document.getElementById('bkDate').value;
+	  if(!name||!email||!date){ alert('Please fill all fields'); return; }
+
+	  const msg = `Consultation Request:%0AName: ${encodeURIComponent(name)}%0AEmail: ${encodeURIComponent(email)}%0APreferred Date/Time: ${encodeURIComponent(date)}`;
+	  const waUrl = `https://wa.me/917082868248?text=${msg}`;
+	  window.open(waUrl, '_blank');
+	  bookingModal.classList.add('hidden');
+	};
+
 
     // Phone/WhatsApp link placeholders — update if you want real links
     document.getElementById('phoneLink').addEventListener('click', (e)=>{ e.preventDefault(); openTel(); });
     document.getElementById('waLink').addEventListener('click', (e)=>{ e.preventDefault(); openWhatsApp(); });
+
+	// WhatsApp send for query form
+	queryForm.addEventListener('submit', function() {
+	  const name = document.getElementById('name').value;
+	  const phone = document.getElementById('phone').value || 'Not provided';
+	  const queryText = document.getElementById('query').value;
+	  const message = `New Legal Query Received:%0AClient Name: ${encodeURIComponent(name)}%0AClient Phone: ${encodeURIComponent(phone)}%0AQuery: ${encodeURIComponent(queryText)}`;
+	  const waUrl = `https://wa.me/917082868248?text=${message}`;
+	  window.open(waUrl, '_blank');
+	});
+
 
   </script>
 
