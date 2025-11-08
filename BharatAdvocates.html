@@ -193,9 +193,9 @@
 		<div>
 		  <h3 class="font-semibold text-lg">Contact</h3>
 		  <p class="mt-2 text-gray-600">Advocate Jagdeep Jotwal • Gurgaon District Court</p>
-		  <p class="mt-2 text-gray-600">Phone: <a href="#" id="phoneLink" class="text-blue-600 underline">+91-7013162767</a></p>
+		  <p class="mt-2 text-gray-600">Phone: <a href="#" id="phoneLink" class="text-blue-600 underline">+91-7082868248</a></p>
 		  <p class="mt-1 text-gray-600">WhatsApp: <a href="#" id="waLink" class="text-blue-600 underline">Chat on WhatsApp</a></p>
-		  <p class="mt-1 text-gray-600">Email: <a href="mailto:vansh.rajput2608@gmail.com" class="text-blue-600 underline">vansh.rajput2608@gmail.com</a></p>
+		  <p class="mt-1 text-gray-600">Email: <a href="mailto:jnllegalcompany@gmail.com" class="text-blue-600 underline">jnllegalcompany@gmail.com</a></p>
 		</div>
 		<div>
 		  <h3 class="font-semibold">Office Hours</h3>
@@ -327,18 +327,18 @@
 	  // === Unified messaging logic (opens instantly)
 	  const plainMsg = `New Legal Query:\nName: ${name}\nEmail: ${email || "Not provided"}\nPhone: ${phone || "Not provided"}\nQuery: ${queryText}`;
 	  const encodedMsg = encodeURIComponent(plainMsg);
-	  const waUrl = `https://wa.me/917013162767?text=${encodedMsg}`;
+	  const waUrl = `https://wa.me/917082868248?text=${encodedMsg}`;
 	  const win = window.open(waUrl, "_blank");
 
 	  setTimeout(() => {
 		if (!win || win.closed || typeof win.closed === "undefined") {
 		  if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
 			alert("Opening SMS since WhatsApp is not available...");
-			const smsUrl = `sms:7013162767?body=${encodedMsg}`;
+			const smsUrl = `sms:7082868248?body=${encodedMsg}`;
 			window.location.href = smsUrl;
 		  } else {
 			alert("Opening Mail since WhatsApp is not available...");
-			const mailUrl = `mailto:vansh.rajput2608@gmail.com?subject=New Legal Query&body=${encodedMsg}`;
+			const mailUrl = `mailto:jnllegalcompany@gmail.com?subject=New Legal Query&body=${encodedMsg}`;
 			window.location.href = mailUrl;
 		  }
 		}
@@ -382,10 +382,10 @@
 
   // === Floating CTA actions ===
   window.openTel = function () {
-    window.location.href = "tel:+917013162767";
+    window.location.href = "tel:+917082868248";
   };
   window.openWhatsApp = function () {
-    window.open("https://wa.me/917013162767", "_blank");
+    window.open("https://wa.me/917082868248", "_blank");
   };
 
   // === Booking modal logic ===
@@ -418,18 +418,18 @@
     const plainMsg = `Consultation Request:\nName: ${name}\nEmail: ${email || "Not provided"}\nPreferred Date/Time: ${date}`;
     const encodedMsg = encodeURIComponent(plainMsg);
 
-    const waUrl = `https://wa.me/917013162767?text=${encodedMsg}`;
+    const waUrl = `https://wa.me/917082868248?text=${encodedMsg}`;
     const win = window.open(waUrl, "_blank");
 
     setTimeout(() => {
       if (!win || win.closed || typeof win.closed === "undefined") {
         if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
           alert("Opening SMS since WhatsApp is not available...");
-          const smsUrl = `sms:7013162767?body=${encodedMsg}`;
+          const smsUrl = `sms:7082868248?body=${encodedMsg}`;
           window.location.href = smsUrl;
         } else {
           alert("Opening Mail since WhatsApp is not available...");
-          const mailUrl = `mailto:vansh.rajput2608@gmail.com?subject=Consultation Request&body=${encodedMsg}`;
+          const mailUrl = `mailto:jnllegalcompany@gmail.com?subject=Consultation Request&body=${encodedMsg}`;
           window.location.href = mailUrl;
         }
       }
