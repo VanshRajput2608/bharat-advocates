@@ -147,11 +147,11 @@
 
       <form id="queryForm" class="space-y-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input type="text" id="name" name="name" required placeholder="Your full name" class="w-full p-3 border border-gray-200 rounded-lg">
-          <input type="email" id="email" name="email" required placeholder="Email address" class="w-full p-3 border border-gray-200 rounded-lg">
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input type="tel" id="phone" name="phone" placeholder="Phone (optional)" class="w-full p-3 border border-gray-200 rounded-lg">
+		  <input type="text" id="name" name="name" required placeholder="Your full name" class="w-full p-3 border border-gray-200 rounded-lg">
+		  <input type="email" id="email" name="email" placeholder="Email address (optional)" class="w-full p-3 border border-gray-200 rounded-lg">
+		</div>
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+		  <input type="tel" id="phone" name="phone" placeholder="Phone (optional)" class="w-full p-3 border border-gray-200 rounded-lg">
           <select id="urgency" class="p-3 border border-gray-200 rounded-lg">
             <option value="normal">Normal</option>
             <option value="urgent">Urgent</option>
@@ -189,19 +189,21 @@
 
     <!-- Contact / Footer -->
     <section id="contact" class="bg-white p-6 rounded-xl shadow text-sm" data-aos="fade-up">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-        <div>
-          <h3 class="font-semibold text-lg">Contact</h3>
-          <p class="mt-2 text-gray-600">Advocate Jagdeep Jotwal • Gurgaon District Court</p>
-          <p class="mt-2 text-gray-600">Phone: <a href="#" id="phoneLink" class="text-blue-600 underline">+91-7013162767</a></p>
-          <p class="mt-1 text-gray-600">WhatsApp: <a href="#" id="waLink" class="text-blue-600 underline">Chat on WhatsApp</a></p>
-        </div>
-        <div>
-          <h3 class="font-semibold">Office Hours</h3>
-          <p class="mt-2 text-gray-600">Mon - Fri: 10:00 AM – 6:00 PM</p>
-        </div>
-      </div>
-    </section>
+	  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+		<div>
+		  <h3 class="font-semibold text-lg">Contact</h3>
+		  <p class="mt-2 text-gray-600">Advocate Jagdeep Jotwal • Gurgaon District Court</p>
+		  <p class="mt-2 text-gray-600">Phone: <a href="#" id="phoneLink" class="text-blue-600 underline">+91-7013162767</a></p>
+		  <p class="mt-1 text-gray-600">WhatsApp: <a href="#" id="waLink" class="text-blue-600 underline">Chat on WhatsApp</a></p>
+		  <p class="mt-1 text-gray-600">Email: <a href="mailto:vansh.rajput2608@gmail.com" class="text-blue-600 underline">vansh.rajput2608@gmail.com</a></p>
+		</div>
+		<div>
+		  <h3 class="font-semibold">Office Hours</h3>
+		  <p class="mt-2 text-gray-600">Mon - Fri: 10:00 AM – 6:00 PM</p>
+		</div>
+	  </div>
+	</section>
+
 
   </main>
 
@@ -224,8 +226,8 @@
       <p class="text-sm text-gray-600 mb-4">Choose a preferred date/time and we will confirm.</p>
       <form id="bookingForm" class="space-y-3">
         <input type="text" id="bkName" placeholder="Your full name" class="w-full p-3 border rounded-lg">
-        <input type="email" id="bkEmail" placeholder="Email" class="w-full p-3 border rounded-lg">
-        <input type="datetime-local" id="bkDate" class="w-full p-3 border rounded-lg">
+		<input type="email" id="bkEmail" placeholder="Email (optional)" class="w-full p-3 border rounded-lg">
+		<input type="datetime-local" id="bkDate" class="w-full p-3 border rounded-lg">
         <div class="flex gap-2">
           <button type="button" class="px-4 py-2 rounded-md cta-gold cta-btn" onclick="submitBooking()">Request Booking</button>
           <button type="button" class="px-4 py-2 rounded-md border" onclick="closeBooking()">Cancel</button>
@@ -247,9 +249,8 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
   import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
   import { getFirestore, collection, addDoc, serverTimestamp, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-  setLogLevel("Debug");
+  setLogLevel('Debug');
 
-  // === Firebase setup ===
   if (firebaseConfig) {
     const app = initializeApp(firebaseConfig);
     db = getFirestore(app);
@@ -280,147 +281,154 @@
     console.warn("Firebase config missing — form will not submit to Firestore in this demo.");
   }
 
-  // === AOS ===
+  // AOS init
   AOS.init({ once: true, duration: 700 });
 
-  // === Reusable popup modal ===
-  function showPopup(message, duration = 2000) {
-    let popup = document.createElement("div");
-    popup.textContent = message;
-    popup.className =
-      "fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-black text-white px-5 py-3 rounded-full shadow-lg text-sm opacity-0 transition-opacity duration-300 z-50";
-    document.body.appendChild(popup);
-    setTimeout(() => (popup.style.opacity = "1"), 50);
-    setTimeout(() => {
-      popup.style.opacity = "0";
-      setTimeout(() => popup.remove(), 500);
-    }, duration);
-  }
+  // Helper: Prefill prompt
+  window.fillPrompt = function (text) {
+    document.getElementById("query").value = text;
+    document.getElementById("query").focus();
+  };
 
-  // === Helper ===
+  // === MAIN FORM (Submit Your Query) ===
+  const queryForm = document.getElementById("queryForm");
+  const messageBox = document.getElementById("messageBox");
+  const submitBtn = document.getElementById("submitBtn");
+
+  queryForm.addEventListener("submit", async function (e) {
+	  e.preventDefault();
+
+	  const name = document.getElementById("name").value.trim();
+	  const email = document.getElementById("email").value.trim();
+	  const phone = document.getElementById("phone").value.trim();
+	  const queryText = document.getElementById("query").value.trim();
+
+	  const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+	  const phoneRegex = /^[6-9][0-9]{9}$/; // 10 digits starting with 6–9
+
+	  // ✅ Validation
+	  if (name.length < 3) {
+		alert("Please enter your full name (at least 3 characters).");
+		return;
+	  }
+	  if (email && !emailRegex.test(email)) {
+		alert("Please enter a valid email address (example@domain.com).");
+		return;
+	  }
+	  if (phone && !phoneRegex.test(phone)) {
+		alert("Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9.");
+		return;
+	  }
+	  if (queryText.length < 10) {
+		alert("Please describe your query in at least 10 characters.");
+		return;
+	  }
+
+	  // === Unified messaging logic (opens instantly)
+	  const plainMsg = `New Legal Query:\nName: ${name}\nEmail: ${email || "Not provided"}\nPhone: ${phone || "Not provided"}\nQuery: ${queryText}`;
+	  const encodedMsg = encodeURIComponent(plainMsg);
+	  const waUrl = `https://wa.me/917013162767?text=${encodedMsg}`;
+	  const win = window.open(waUrl, "_blank");
+
+	  setTimeout(() => {
+		if (!win || win.closed || typeof win.closed === "undefined") {
+		  if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+			alert("Opening SMS since WhatsApp is not available...");
+			const smsUrl = `sms:7013162767?body=${encodedMsg}`;
+			window.location.href = smsUrl;
+		  } else {
+			alert("Opening Mail since WhatsApp is not available...");
+			const mailUrl = `mailto:vansh.rajput2608@gmail.com?subject=New Legal Query&body=${encodedMsg}`;
+			window.location.href = mailUrl;
+		  }
+		}
+	  }, 1500);
+
+	  // === Save to Firestore if available
+	  try {
+		if (firebaseConfig && db) {
+		  const col = collection(db, `/artifacts/${appId}/public/data/client_queries`);
+		  await addDoc(col, {
+			clientName: name,
+			email,
+			phone,
+			urgency: document.getElementById("urgency").value,
+			queryText,
+			status: "New",
+			timestamp: serverTimestamp ? serverTimestamp() : new Date(),
+		  });
+		  showMessage("Query submitted successfully!", "bg-green-50 text-green-700");
+		}
+	  } catch (err) {
+		console.error(err);
+		showMessage("Error: " + err.message, "bg-red-50 text-red-700");
+	  } finally {
+		queryForm.reset();
+	  }
+	});
+
+
+
+  // === PHONE INPUT RESTRICTION ===
+  document.getElementById("phone").addEventListener("input", function () {
+    this.value = this.value.replace(/\D/g, "").slice(0, 10);
+  });
+
   function showMessage(text, cls) {
     messageBox.textContent = text;
     messageBox.className = cls + " p-3 mb-4 rounded-lg text-sm text-center font-medium";
     messageBox.classList.remove("hidden");
   }
 
-  window.fillPrompt = function (text) {
-    document.getElementById("query").value = text;
-    document.getElementById("query").focus();
+  // === Floating CTA actions ===
+  window.openTel = function () {
+    window.location.href = "tel:+917013162767";
+  };
+  window.openWhatsApp = function () {
+    window.open("https://wa.me/917013162767", "_blank");
   };
 
-  const queryForm = document.getElementById("queryForm");
-  const messageBox = document.getElementById("messageBox");
-  const submitBtn = document.getElementById("submitBtn");
-
-  // === FORM SUBMIT ===
-  queryForm.addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const queryText = document.getElementById("query").value.trim();
-
-    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-    const phoneRegex = /^[6-9][0-9]{9}$/;
-
-    if (name.length < 3) return showPopup("Enter your full name (min 3 chars)");
-    if (email && !emailRegex.test(email)) return showPopup("Enter a valid email (example@domain.com)");
-    if (phone && !phoneRegex.test(phone)) return showPopup("Enter 10-digit number starting with 6-9");
-    if (queryText.length < 10) return showPopup("Describe your query in at least 10 characters");
-
-    if (!isAuthReady) {
-      showMessage("Please wait — connecting...", "bg-yellow-50 text-yellow-700");
-      return;
-    }
-
-    const data = {
-      clientName: name,
-      email,
-      phone,
-      urgency: document.getElementById("urgency").value,
-      queryText,
-      status: "New",
-      timestamp: serverTimestamp ? serverTimestamp() : new Date(),
-    };
-
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Submitting...';
-
-    try {
-      const col = collection(db, `/artifacts/${appId}/public/data/client_queries`);
-      const docRef = await addDoc(col, data);
-      showMessage("Query submitted successfully! Reference: " + docRef.id, "bg-green-50 text-green-700");
-      queryForm.reset();
-
-      // === Unified WhatsApp / SMS / Email logic ===
-      const plainMsg = `New Legal Query:\nName: ${name}\nPhone: ${phone || "Not provided"}\nQuery: ${queryText}`;
-      const encodedMsg = encodeURIComponent(plainMsg);
-      const waUrl = `https://wa.me/917013162767?text=${encodedMsg}`;
-      const win = window.open(waUrl, "_blank");
-
-      setTimeout(() => {
-        if (!win || win.closed || typeof win.closed === "undefined") {
-          if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-            showPopup("Opening SMS since WhatsApp is not available...");
-            const smsUrl = `sms:7013162767?body=${encodedMsg}`;
-            window.location.href = smsUrl;
-          } else {
-            showPopup("Opening Mail since WhatsApp is not available...");
-            const mailUrl = `mailto:vansh.rajput2608@gmail.com?subject=New Legal Query&body=${encodedMsg}`;
-            window.location.href = mailUrl;
-          }
-        }
-      }, 1500);
-    } catch (err) {
-      console.error(err);
-      showMessage("Error: " + err.message, "bg-red-50 text-red-700");
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i> Submit Your Query';
-    }
-  });
-
-  // === PHONE INPUT ONLY NUMBERS ===
-  document.getElementById("phone").addEventListener("input", function () {
-    this.value = this.value.replace(/\D/g, "").slice(0, 10);
-  });
-
-  // === Floating actions ===
-  window.openTel = () => (window.location.href = "tel:+917013162767");
-  window.openWhatsApp = () => window.open("https://wa.me/917013162767", "_blank");
-
-  // === Booking Modal ===
+  // === Booking modal logic ===
   const bookingModal = document.getElementById("bookingModal");
   document.getElementById("bookNowHero").addEventListener("click", () => bookingModal.classList.remove("hidden"));
   document.getElementById("bookFloating").addEventListener("click", () => bookingModal.classList.remove("hidden"));
   document.getElementById("bookBtnNavbar").addEventListener("click", () => bookingModal.classList.remove("hidden"));
   window.closeBooking = () => bookingModal.classList.add("hidden");
 
-  // === BOOK CONSULTATION ===
+  // === BOOK CONSULTATION (WhatsApp + SMS + Email fallback) ===
   window.submitBooking = () => {
     const name = document.getElementById("bkName").value.trim();
     const email = document.getElementById("bkEmail").value.trim();
     const date = document.getElementById("bkDate").value;
 
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-    if (!name || !date) return showPopup("Enter name & date/time for appointment");
-    if (email && !emailRegex.test(email)) return showPopup("Enter valid email or leave blank");
-
+    if (name.length < 3) {
+	  alert("Please enter your full name (at least 3 characters).");
+	  return;
+	}
+	if (email && !emailRegex.test(email)) {
+	  alert("Please enter a valid email address (example@domain.com).");
+	  return;
+	}
+	if (!date) {
+	  alert("Please choose a preferred date/time for consultation.");
+	  return;
+	}
+	
     const plainMsg = `Consultation Request:\nName: ${name}\nEmail: ${email || "Not provided"}\nPreferred Date/Time: ${date}`;
     const encodedMsg = encodeURIComponent(plainMsg);
+
     const waUrl = `https://wa.me/917013162767?text=${encodedMsg}`;
     const win = window.open(waUrl, "_blank");
 
     setTimeout(() => {
       if (!win || win.closed || typeof win.closed === "undefined") {
         if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-          showPopup("Opening SMS since WhatsApp is not available...");
+          alert("Opening SMS since WhatsApp is not available...");
           const smsUrl = `sms:7013162767?body=${encodedMsg}`;
           window.location.href = smsUrl;
         } else {
-          showPopup("Opening Mail since WhatsApp is not available...");
+          alert("Opening Mail since WhatsApp is not available...");
           const mailUrl = `mailto:vansh.rajput2608@gmail.com?subject=Consultation Request&body=${encodedMsg}`;
           window.location.href = mailUrl;
         }
