@@ -189,7 +189,7 @@
         <div>
           <h3 class="font-semibold text-lg">Contact</h3>
           <p class="mt-2 text-gray-600">Advocate Jagdeep Jotwal • Gurgaon District Court</p>
-          <p class="mt-2 text-gray-600">Phone: <a href="#" id="phoneLink" class="text-blue-600 underline">+91-7082868248</a></p>
+          <p class="mt-2 text-gray-600">Phone: <a href="#" id="phoneLink" class="text-blue-600 underline">+91-7013162767</a></p>
           <p class="mt-1 text-gray-600">WhatsApp: <a href="#" id="waLink" class="text-blue-600 underline">Chat on WhatsApp</a></p>
         </div>
         <div>
@@ -293,8 +293,8 @@
     function showMessage(text, cls){ messageBox.textContent = text; messageBox.className = cls + ' p-3 mb-4 rounded-lg text-sm text-center font-medium'; messageBox.classList.remove('hidden'); }
 
     // Floating CTA actions
-    window.openTel = function(){ window.location.href = 'tel:+917082868248'; }
-    window.openWhatsApp = function(){ window.open('https://wa.me/917082868248', '_blank'); }
+    window.openTel = function(){ window.location.href = 'tel:+917013162767'; }
+    window.openWhatsApp = function(){ window.open('https://wa.me/917013162767', '_blank'); }
 
     // Booking modal
     const bookingModal = document.getElementById('bookingModal');
@@ -309,7 +309,7 @@
 	  if(!name||!email||!date){ alert('Please fill all fields'); return; }
 
 	  const msg = `Consultation Request:%0AName: ${encodeURIComponent(name)}%0AEmail: ${encodeURIComponent(email)}%0APreferred Date/Time: ${encodeURIComponent(date)}`;
-	  const waUrl = `https://wa.me/917082868248?text=${msg}`;
+	  const waUrl = `https://wa.me/917013162767?text=${msg}`;
 	  window.open(waUrl, '_blank');
 	  bookingModal.classList.add('hidden');
 	};
@@ -325,7 +325,7 @@
 	  const phone = document.getElementById('phone').value || 'Not provided';
 	  const queryText = document.getElementById('query').value;
 	  const message = `New Legal Query Received:%0AClient Name: ${encodeURIComponent(name)}%0AClient Phone: ${encodeURIComponent(phone)}%0AQuery: ${encodeURIComponent(queryText)}`;
-	  const waUrl = `https://wa.me/917082868248?text=${message}`;
+	  const waUrl = `https://wa.me/917013162767?text=${message}`;
 	  window.open(waUrl, '_blank');
 	});
 
