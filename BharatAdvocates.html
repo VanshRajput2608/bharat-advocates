@@ -242,12 +242,14 @@
     const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
     let db; let auth; let isAuthReady = false;
   </script>
+  
   <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
   import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
   import { getFirestore, collection, addDoc, serverTimestamp, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-  setLogLevel('Debug');
+  setLogLevel("Debug");
 
+  // === Firebase setup ===
   if (firebaseConfig) {
     const app = initializeApp(firebaseConfig);
     db = getFirestore(app);
@@ -255,88 +257,92 @@
 
     async function authenticate() {
       try {
-        if (initialAuthToken) {
-          await signInWithCustomToken(auth, initialAuthToken);
-        } else {
-          await signInAnonymously(auth);
-        }
-        console.log('Firebase Auth successful');
+        if (initialAuthToken) await signInWithCustomToken(auth, initialAuthToken);
+        else await signInAnonymously(auth);
+        console.log("Firebase Auth successful");
       } catch (e) {
-        console.error('Firebase Auth failed:', e);
+        console.error("Firebase Auth failed:", e);
       }
     }
+
     onAuthStateChanged(auth, (user) => {
+      console.log("Firebase Auth state changed:", user ? "Ready" : "Not Ready");
       if (user) {
         window.userId = user.uid;
         isAuthReady = true;
       } else {
-        window.userId = 'anon-' + Math.random().toString(36).slice(2, 9);
+        window.userId = "anon-" + Math.random().toString(36).slice(2, 9);
         isAuthReady = true;
       }
     });
     authenticate();
   } else {
-    console.warn('Firebase config missing — form will not submit to Firestore in this demo.');
+    console.warn("Firebase config missing — form will not submit to Firestore in this demo.");
   }
 
-  // AOS init
+  // === AOS ===
   AOS.init({ once: true, duration: 700 });
 
-  // Fill prompt helper
+  // === Reusable popup modal ===
+  function showPopup(message, duration = 2000) {
+    let popup = document.createElement("div");
+    popup.textContent = message;
+    popup.className =
+      "fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-black text-white px-5 py-3 rounded-full shadow-lg text-sm opacity-0 transition-opacity duration-300 z-50";
+    document.body.appendChild(popup);
+    setTimeout(() => (popup.style.opacity = "1"), 50);
+    setTimeout(() => {
+      popup.style.opacity = "0";
+      setTimeout(() => popup.remove(), 500);
+    }, duration);
+  }
+
+  // === Helper ===
+  function showMessage(text, cls) {
+    messageBox.textContent = text;
+    messageBox.className = cls + " p-3 mb-4 rounded-lg text-sm text-center font-medium";
+    messageBox.classList.remove("hidden");
+  }
+
   window.fillPrompt = function (text) {
-    document.getElementById('query').value = text;
-    document.getElementById('query').focus();
+    document.getElementById("query").value = text;
+    document.getElementById("query").focus();
   };
 
-  // === VALIDATION + FIREBASE + WHATSAPP IN ONE CLEAN HANDLER ===
-  const queryForm = document.getElementById('queryForm');
-  const messageBox = document.getElementById('messageBox');
-  const submitBtn = document.getElementById('submitBtn');
+  const queryForm = document.getElementById("queryForm");
+  const messageBox = document.getElementById("messageBox");
+  const submitBtn = document.getElementById("submitBtn");
 
-  queryForm.addEventListener('submit', async function (e) {
+  // === FORM SUBMIT ===
+  queryForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const queryText = document.getElementById('query').value.trim();
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const queryText = document.getElementById("query").value.trim();
 
-    // ✅ Strict regex
-    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/; // must have valid domain (e.g. .com, .in)
-    const phoneRegex = /^[6-9][0-9]{9}$/; // starts with 6–9 and exactly 10 digits
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    const phoneRegex = /^[6-9][0-9]{9}$/;
 
-    // Validation
-    if (name.length < 3) {
-      alert('Please enter your full name (at least 3 characters).');
-      return;
-    }
-    if (!emailRegex.test(email)) {
-      alert('Please enter a valid email address (example@domain.com).');
-      return;
-    }
-    if (!phoneRegex.test(phone)) {
-		alert('Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9.');
-		return;
-	  }
-    if (queryText.length < 10) {
-      alert('Please describe your query in at least 10 characters.');
-      return;
-    }
+    if (name.length < 3) return showPopup("Enter your full name (min 3 chars)");
+    if (email && !emailRegex.test(email)) return showPopup("Enter a valid email (example@domain.com)");
+    if (phone && !phoneRegex.test(phone)) return showPopup("Enter 10-digit number starting with 6-9");
+    if (queryText.length < 10) return showPopup("Describe your query in at least 10 characters");
 
-    // Proceed only if validation passes
     if (!isAuthReady) {
-      showMessage('Please wait — connecting...', 'bg-yellow-50 text-yellow-700');
+      showMessage("Please wait — connecting...", "bg-yellow-50 text-yellow-700");
       return;
     }
 
     const data = {
       clientName: name,
-      email: email,
-      phone: phone,
-      urgency: document.getElementById('urgency').value,
-      queryText: queryText,
-      status: 'New',
-      timestamp: serverTimestamp ? serverTimestamp() : new Date()
+      email,
+      phone,
+      urgency: document.getElementById("urgency").value,
+      queryText,
+      status: "New",
+      timestamp: serverTimestamp ? serverTimestamp() : new Date(),
     };
 
     submitBtn.disabled = true;
@@ -345,59 +351,96 @@
     try {
       const col = collection(db, `/artifacts/${appId}/public/data/client_queries`);
       const docRef = await addDoc(col, data);
-      showMessage('Query submitted successfully! Reference: ' + docRef.id, 'bg-green-50 text-green-700');
+      showMessage("Query submitted successfully! Reference: " + docRef.id, "bg-green-50 text-green-700");
       queryForm.reset();
 
-      // ✅ Send WhatsApp only AFTER valid submission
-      const message = `New Legal Query Received:%0AClient Name: ${encodeURIComponent(name)}%0AClient Phone: ${encodeURIComponent(phone || 'Not provided')}%0AQuery: ${encodeURIComponent(queryText)}`;
-      const waUrl = `https://wa.me/917013162767?text=${message}`;
-      window.open(waUrl, '_blank');
+      // === Unified WhatsApp / SMS / Email logic ===
+      const plainMsg = `New Legal Query:\nName: ${name}\nPhone: ${phone || "Not provided"}\nQuery: ${queryText}`;
+      const encodedMsg = encodeURIComponent(plainMsg);
+      const waUrl = `https://wa.me/917013162767?text=${encodedMsg}`;
+      const win = window.open(waUrl, "_blank");
+
+      setTimeout(() => {
+        if (!win || win.closed || typeof win.closed === "undefined") {
+          if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+            showPopup("Opening SMS since WhatsApp is not available...");
+            const smsUrl = `sms:7013162767?body=${encodedMsg}`;
+            window.location.href = smsUrl;
+          } else {
+            showPopup("Opening Mail since WhatsApp is not available...");
+            const mailUrl = `mailto:vansh.rajput2608@gmail.com?subject=New Legal Query&body=${encodedMsg}`;
+            window.location.href = mailUrl;
+          }
+        }
+      }, 1500);
     } catch (err) {
       console.error(err);
-      showMessage('Error: ' + err.message, 'bg-red-50 text-red-700');
+      showMessage("Error: " + err.message, "bg-red-50 text-red-700");
     } finally {
       submitBtn.disabled = false;
       submitBtn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i> Submit Your Query';
     }
   });
 
-  // Restrict phone input to digits only, max length 10
-  document.getElementById('phone').addEventListener('input', function () {
-    this.value = this.value.replace(/\D/g, '').slice(0, 10);
+  // === PHONE INPUT ONLY NUMBERS ===
+  document.getElementById("phone").addEventListener("input", function () {
+    this.value = this.value.replace(/\D/g, "").slice(0, 10);
   });
 
-  function showMessage(text, cls) {
-    messageBox.textContent = text;
-    messageBox.className = cls + ' p-3 mb-4 rounded-lg text-sm text-center font-medium';
-    messageBox.classList.remove('hidden');
-  }
+  // === Floating actions ===
+  window.openTel = () => (window.location.href = "tel:+917013162767");
+  window.openWhatsApp = () => window.open("https://wa.me/917013162767", "_blank");
 
-  // Floating CTA actions
-  window.openTel = function () { window.location.href = 'tel:+917013162767'; };
-  window.openWhatsApp = function () { window.open('https://wa.me/917013162767', '_blank'); };
+  // === Booking Modal ===
+  const bookingModal = document.getElementById("bookingModal");
+  document.getElementById("bookNowHero").addEventListener("click", () => bookingModal.classList.remove("hidden"));
+  document.getElementById("bookFloating").addEventListener("click", () => bookingModal.classList.remove("hidden"));
+  document.getElementById("bookBtnNavbar").addEventListener("click", () => bookingModal.classList.remove("hidden"));
+  window.closeBooking = () => bookingModal.classList.add("hidden");
 
-  // Booking modal
-  const bookingModal = document.getElementById('bookingModal');
-  document.getElementById('bookNowHero').addEventListener('click', () => bookingModal.classList.remove('hidden'));
-  document.getElementById('bookFloating').addEventListener('click', () => bookingModal.classList.remove('hidden'));
-  document.getElementById('bookBtnNavbar').addEventListener('click', () => bookingModal.classList.remove('hidden'));
-  window.closeBooking = () => bookingModal.classList.add('hidden');
-
+  // === BOOK CONSULTATION ===
   window.submitBooking = () => {
-    const name = document.getElementById('bkName').value;
-    const email = document.getElementById('bkEmail').value;
-    const date = document.getElementById('bkDate').value;
-    if (!name || !email || !date) { alert('Please fill all fields'); return; }
-    const msg = `Consultation Request:%0AName: ${encodeURIComponent(name)}%0AEmail: ${encodeURIComponent(email)}%0APreferred Date/Time: ${encodeURIComponent(date)}`;
-    const waUrl = `https://wa.me/917013162767?text=${msg}`;
-    window.open(waUrl, '_blank');
-    bookingModal.classList.add('hidden');
+    const name = document.getElementById("bkName").value.trim();
+    const email = document.getElementById("bkEmail").value.trim();
+    const date = document.getElementById("bkDate").value;
+
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    if (!name || !date) return showPopup("Enter name & date/time for appointment");
+    if (email && !emailRegex.test(email)) return showPopup("Enter valid email or leave blank");
+
+    const plainMsg = `Consultation Request:\nName: ${name}\nEmail: ${email || "Not provided"}\nPreferred Date/Time: ${date}`;
+    const encodedMsg = encodeURIComponent(plainMsg);
+    const waUrl = `https://wa.me/917013162767?text=${encodedMsg}`;
+    const win = window.open(waUrl, "_blank");
+
+    setTimeout(() => {
+      if (!win || win.closed || typeof win.closed === "undefined") {
+        if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+          showPopup("Opening SMS since WhatsApp is not available...");
+          const smsUrl = `sms:7013162767?body=${encodedMsg}`;
+          window.location.href = smsUrl;
+        } else {
+          showPopup("Opening Mail since WhatsApp is not available...");
+          const mailUrl = `mailto:vansh.rajput2608@gmail.com?subject=Consultation Request&body=${encodedMsg}`;
+          window.location.href = mailUrl;
+        }
+      }
+    }, 1500);
+
+    bookingModal.classList.add("hidden");
   };
 
-  // Contact links
-  document.getElementById('phoneLink').addEventListener('click', (e) => { e.preventDefault(); openTel(); });
-  document.getElementById('waLink').addEventListener('click', (e) => { e.preventDefault(); openWhatsApp(); });
+  // === Contact links ===
+  document.getElementById("phoneLink").addEventListener("click", (e) => {
+    e.preventDefault();
+    openTel();
+  });
+  document.getElementById("waLink").addEventListener("click", (e) => {
+    e.preventDefault();
+    openWhatsApp();
+  });
+</script>
 
-  </script>
+  
 </body>
 </html>
