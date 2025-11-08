@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advocate | Legal Practice of [Advocate's Name]</title>
+<!-- Load Tailwind CSS for modern styling -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Load Inter Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+<!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+       body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+       .advocate-bg { background-color: #1a365d; } /* Dark Blue */
+       .primary-color { background-color: #3b82f6; } /* Blue 500 */
+       .primary-color:hover { background-color: #2563eb; } /* Blue 600 */
+</style>
+</head>
+<body class="antialiased">
+<!-- Navigation Bar -->
+<nav class="advocate-bg text-white shadow-lg sticky top-0 z-10">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-16">
+<a href="#home" class="text-2xl font-bold tracking-tight">
+<i class="fas fa-gavel mr-2"></i> Legal Services
+</a>
+<div class="flex items-center space-x-4">
+<!-- Login Button for Advocate (Simulated Link) -->
+<a href="#" onclick="alert('This will be the separate Spring Boot/React login page.')" class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold py-1.5 px-4 rounded-full transition duration-150 shadow-md">
+                       Advocate Login
+</a>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Container -->
+<div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+<!-- 1. Hero Section - Advocate Details -->
+<header id="home" class="bg-white rounded-xl shadow-xl p-8 mb-8 border-t-4 border-blue-500">
+<div class="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-8">
+<!-- Profile Picture Placeholder -->
+<div class="flex-shrink-0">
+<img src="https://placehold.co/150x150/1a365d/ffffff?text=ADVOCATE" alt="Advocate Profile Photo" class="w-32 h-32 rounded-full object-cover border-4 border-gray-100 shadow-lg">
+</div>
+<!-- Profile Text -->
+<div>
+<h1 class="text-4xl font-extrabold text-gray-900">Advocate Jagdeep Jotwal</h1>
+<p class="text-xl text-blue-600 font-medium mt-1">Gurgaon District Court</p>
+<p class="text-gray-600 mt-3 max-w-lg">Over 15 years of comprehensive experience delivering strategic legal counsel across corporate, civil, and constitutional matters. Dedicated to ethical practice and client success.</p>
+</div>
+</div>
+</header>
+<!-- 2. Specializations Section -->
+<section id="specializations" class="mb-8">
+<h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 pb-2 border-gray-200">Our Core Specializations</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Specialization Card 1: Corporate Law -->
+<div class="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+<i class="fas fa-building text-2xl text-blue-500 mb-2"></i>
+<h3 class="font-semibold text-lg text-gray-900">Corporate & Commercial Law</h3>
+<p class="text-sm text-gray-600">Handling mergers, acquisitions, regulatory compliance, contract drafting, and dispute resolution for businesses and startups.</p>
+</div>
+<!-- Specialization Card 2: Property Disputes -->
+<div class="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+<i class="fas fa-landmark text-2xl text-blue-500 mb-2"></i>
+<h3 class="font-semibold text-lg text-gray-900">Real Estate & Property Law</h3>
+<p class="text-sm text-gray-600">Expertise in land title disputes, sale agreements, landlord-tenant issues, and property litigation.</p>
+</div>
+<!-- Specialization Card 3: Family Law -->
+<div class="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+<i class="fas fa-people-arrows text-2xl text-blue-500 mb-2"></i>
+<h3 class="font-semibold text-lg text-gray-900">Family & Matrimonial Law</h3>
+<p class="text-sm text-gray-600">Dedicated support for divorce, custody battles, maintenance claims, and domestic agreements.</p>
+</div>
+<!-- Specialization Card 4: Constitutional Law -->
+<div class="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+<i class="fas fa-balance-scale text-2xl text-blue-500 mb-2"></i>
+<h3 class="font-semibold text-lg text-gray-900">Constitutional & Writs</h3>
+<p class="text-sm text-gray-600">Appearing in High Courts and the Supreme Court for matters concerning fundamental rights and constitutional challenges.</p>
+</div>
+</div>
+</section>
+<!-- 3. Ask Me Anything (AMA) Section - Core Functionality -->
+<section id="ama" class="bg-white p-6 rounded-xl shadow-xl border-l-4 border-red-500">
+<h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+<i class="fas fa-question-circle mr-3 text-red-500"></i> Ask Me Anything (Secure Query)
+</h2>
+<p class="text-gray-600 mb-6">Have a legal doubt? Fill out the form below. Advocate Sharma's team will review your query and get back to you directly.</p>
+<form id="queryForm">
+<div class="mb-4">
+<label for="name" class="block text-sm font-medium text-gray-700 mb-1">Your Full Name (Required)</label>
+<input type="text" id="name" name="name" required placeholder="Vansh Rajput" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition">
+</div>
+<div class="mb-4">
+<label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address (Required)</label>
+<input type="email" id="email" name="email" required placeholder="you@example.com" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition">
+</div>
+<div class="mb-4">
+<label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number (Optional)</label>
+<input type="tel" id="phone" name="phone" placeholder="+91-XXXXXXXXXX" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition">
+</div>
+<div class="mb-6">
+<label for="query" class="block text-sm font-medium text-gray-700 mb-1">Your Legal Query / Doubt (Required)</label>
+<textarea id="query" name="query" rows="5" required placeholder="Describe your legal question or case details briefly..." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition"></textarea>
+</div>
+<div id="messageBox" class="hidden p-3 mb-4 rounded-lg text-sm text-center font-medium" role="alert"></div>
+<button type="submit" class="w-full flex items-center justify-center primary-color text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+<i class="fas fa-paper-plane mr-2"></i> Submit Your Query
+</button>
+</form>
+</section>
+</div>
+<!-- Footer -->
+<footer class="advocate-bg text-white mt-10 p-6 text-center text-sm">
+<p>&copy; 2025 Advocate Jagdeep Jotwal Legal Practice. All Rights Reserved. | <a href="#" class="underline">Privacy Policy</a></p>
+</footer>
+<!-- JavaScript for Form Submission Mockup -->
+<script>
+       // Global variables for Firebase setup
+       const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+       const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+       const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+       let db;
+       let auth;
+       let isAuthReady = false;
+</script>
+<script type="module">
+       import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+       import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+       import { getFirestore, collection, addDoc, serverTimestamp, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+       // Enable Firestore Debug Logging
+       setLogLevel('Debug');
+       // Initialize Firebase
+       if (firebaseConfig) {
+           const app = initializeApp(firebaseConfig);
+           db = getFirestore(app);
+           auth = getAuth(app);
+           // Authentication Setup
+           async function authenticate() {
+               try {
+                   if (initialAuthToken) {
+                       await signInWithCustomToken(auth, initialAuthToken);
+                   } else {
+                       await signInAnonymously(auth);
+                   }
+                   console.log("Firebase Auth successful.");
+               } catch (error) {
+                   console.error("Firebase Auth failed:", error);
+               }
+           }
+           onAuthStateChanged(auth, (user) => {
+               if (user) {
+                   window.userId = user.uid; // Make userId globally accessible in the script scope
+                   isAuthReady = true;
+                   console.log("User authenticated:", user.uid);
+               } else {
+                   window.userId = 'anonymous-user-' + Math.random().toString(36).substring(2, 9);
+                   isAuthReady = true;
+                   console.log("User signed out or failed to auth, using temporary ID.");
+               }
+           });
+           // Run authentication flow
+           authenticate();
+       } else {
+           console.error("Firebase configuration is missing.");
+       }
+
+       // Form Submission Logic
+       const queryForm = document.getElementById('queryForm');
+       const messageBox = document.getElementById('messageBox');
+       async function submitQuery(event) {
+           event.preventDefault();
+           if (!isAuthReady) {
+               showMessage('Please wait while the connection loads...', 'bg-yellow-100 text-yellow-700');
+               // Simple retry mechanism might be better in a real app, but for now, wait a second.
+               setTimeout(() => submitQuery(event), 1000);
+               return;
+           }
+           const formData = new FormData(queryForm);
+           const queryData = {
+               clientName: formData.get('name'),
+               email: formData.get('email'),
+               phone: formData.get('phone'),
+               queryText: formData.get('query'),
+               status: 'New', // Status is 'New' for advocate dashboard
+               timestamp: serverTimestamp(),
+               // Use a generic collection for public queries
+               collectionPath: `/artifacts/${appId}/public/data/client_queries`,
+               // Associate the query with the current user ID
+               clientId: window.userId
+           };
+           const submitButton = queryForm.querySelector('button[type="submit"]');
+           submitButton.disabled = true;
+           submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Submitting...';
+           messageBox.classList.add('hidden');
+           try {
+               if (!db) {
+                    throw new Error("Database not initialized.");
+               }
+               const queriesCollection = collection(db, queryData.collectionPath);
+               // Remove the utility field before saving
+               delete queryData.collectionPath;
+               const docRef = await addDoc(queriesCollection, queryData);
+               showMessage(`Query successfully submitted! Reference ID: ${docRef.id}. The advocate will contact you soon.`, 'bg-green-100 text-green-700');
+               queryForm.reset();
+           } catch (e) {
+               console.error("Error adding document: ", e);
+               showMessage(`Error: Could not submit query. Please try again. (${e.message})`, 'bg-red-100 text-red-700');
+           } finally {
+               submitButton.disabled = false;
+               submitButton.innerHTML = '<i class="fas fa-paper-plane mr-2"></i> Submit Your Query';
+           }
+       }
+       function showMessage(text, className) {
+           messageBox.textContent = text;
+           messageBox.className = className + ' p-3 mb-4 rounded-lg text-sm text-center font-medium';
+           messageBox.classList.remove('hidden');
+       }
+       queryForm.addEventListener('submit', submitQuery);
+</script>
+</body>
+</html>
